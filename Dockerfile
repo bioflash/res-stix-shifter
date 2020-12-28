@@ -14,5 +14,5 @@ RUN pip install flask
 COPY --from=build /stix-shifter/dist/ /stix-package
 RUN pip install /stix-package/*
 COPY app.py app.py
-CMD "python3 app.py"
-#ENTRYPOINT ["python3", "app.py"]
+#CMD "python3 app.py"
+ENTRYPOINT ["python3", "app.py"]
