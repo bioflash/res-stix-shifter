@@ -4,6 +4,7 @@
   
 `docker build . -t res-stix-shifter`
 
+ You may need to use `--no-cache` when building the image to get updates for stix-shifter for Resilient
 * To run the container:
 
 `docker run -d --rm -e API_KEY=<RESILIENT_API_KEY> -e API_PASSWORD=<RESILIENT_API_PASSWORD> -e ORG_ID=<ORG_ID> -e HOST=<RESILIENT_HOST> -p 5000:5000 res-stix-shifter`

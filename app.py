@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask, request
 import os
 from stix_shifter.stix_translation import stix_translation
@@ -19,13 +21,20 @@ if 'API_PASSWORD' in os.environ:
 if 'ORG_ID' in os.environ:
     ORG_ID =  int(os.environ['ORG_ID'])
 
+data_source = {
+    "type": "identity",
+    "id": "identity--3532c56d-ea72-48be-a2ad-1a53f4c9c6d3",
+    "name": "Resilient",
+    "identity_class": "artifacts"
+}
+
 @app.route('/rest/query_artifacts', methods = ['POST'])
 def query_artifacts():
     stix = request.json
     query = translation.translate('resilient', 'query', '{}', stix['query'])
     transmission = stix_transmission.StixTransmission("resilient", {"host":HOST, "port":PORT}, {"orgId":ORG_ID,"auth": {"username": API_KEY, "password": API_PASSWORD}})
     response = transmission.query(query['queries'][0])
-    return response['data'][0]
+    return translation.translate('resilient','results', json.dumps(data_source), json.dumps(response))
 
 
 if __name__ == '__main__':
